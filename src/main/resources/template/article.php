@@ -4,26 +4,27 @@ if(session_status() == PHP_SESSION_NONE) {
 }
 ?>
 <?php include_once './include/menu.php'; ?>
-<h4> Les articles <h4>
+<h4 class="text-center">Article</h4>
+<?php
+require_once '../../function/db.php'; // Require la connexion a la base de donnée
+$idArticle = $_GET['idArticle'];
+$article = $pdo->prepare('SELECT idArticle, statutArticle, auteur, titreArticle, contenuArticle,  DATE_FORMAT(dateArticle, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreationFr FROM article WHERE idArticle = :idArticle');
+$article->bindParam(':idArticle', $idArticle);
+$article->execute();
 
-<?php require_once '../../function/db.php'; // Require la connexion a la base de donnée 
-
-$reqArticle = $pdo->query('SELECT idArticle, statutArticle, auteur, titreArticle, contenuArticle,  DATE_FORMAT(dateArticle, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreationFr FROM article ORDER BY dateArticle');
-while ($donnees = $reqArticle->fetch())
-{
+while ($donnees = $article->fetch())
+{          
 ?>
-<div class="news">
-    <h3>
+<div class="card col-12 col-sm-12 col-md-8 col-lg-8 radius-10 m-auto">
+<div class="card-body">
+    <h5 class="card-title">
         <?php echo htmlspecialchars($donnees->titreArticle); ?>
-        <em> posté le <?php echo $donnees->dateCreationFr ?></em>
-    </h3>
-    
-    <p>
-    <?php
-    // On affiche le contenu du billet
-    echo nl2br(htmlspecialchars($donnees->contenuArticle));
-    ?>
-    
+    </h5>
+    <div class="card-text">
+    <?php echo $donnees->contenuArticle ?>
+    </div>
+    <p class="card-text"><em> Posté le <b><?php echo $donnees->dateCreationFr ?></b></em></p>
+    <p class="card-text">Posté par <b><?php echo $donnees->auteur ?></b></p>
 </div>
 <?php
 } // Fin de la boucle des billets

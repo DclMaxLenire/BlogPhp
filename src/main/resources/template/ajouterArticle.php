@@ -9,6 +9,8 @@ if(session_status() == PHP_SESSION_NONE) {
 <?php 
 require_once '../../function/db.php'; // Require la connexion a la base de donnée
 
+if (isset($_POST['poster'])) { 
+    if(!empty($_POST['titreArticle'] && $_POST['contenuArticle'] && $_POST['idCategorie'])) {
 $idUtilisateur = $_SESSION['auth']->idUtilisateur;
 $auteur = $_SESSION['auth']->nomUtilisateur;
 
@@ -21,15 +23,14 @@ $reqCreationArticle-> bindParam(':contenuArticle', $_POST['contenuArticle']);
 $reqCreationArticle-> bindParam(':idUtilisateur', $idUtilisateur);
 $reqCreationArticle-> bindParam(':idCategorie', $_POST['idCategorie']);
 $reqCreationArticle-> execute();
+}}
 ?>
 
 
 <form method="POST">
 
-<div class="card">
-
-<label>Titre de l'article</label>
-<input type="text" name="titreArticle"/>
+<label class="form-control">Titre de l'article</label>
+<input type="text" class="form-control" name="titreArticle"/>
 
 <label>Categorie de l'article</label>
 <select id="select" class="form-control" name="idCategorie" class="selLieu">
@@ -37,7 +38,6 @@ $reqCreationArticle-> execute();
                         
                         $categorieArticle = $pdo->query("SELECT * FROM categorie ORDER BY idCategorie");
                         while ($donnees = $categorieArticle->fetch()){ ?>
-                        <option value="">Choisir la categorie</option> 
                         <option value="<?php echo $donnees->idCategorie; ?>"><?php echo $donnees->nomCategorie; ?></option>
                         <?php  } ?>
                         
@@ -45,8 +45,7 @@ $reqCreationArticle-> execute();
                 </select>
 
 <label>Contenu de votre article</label>
-<textarea type="text" name="contenuArticle"></textarea>
+<textarea type="text" class="form-control" name="contenuArticle"></textarea>
 
-<button type="submit">Poster</button>
-</div>
+<button class="btn btn-primary mt-3 col-12" type="submit" name="poster">Poster</button>
 </form>

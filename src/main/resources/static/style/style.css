@@ -1,0 +1,14 @@
+.bg-grey {
+    background-color: rgb(69, 73, 69);
+}
+
+.bg-red {
+    background-color: rgb(112, 13, 13);
+}
+.radius-10 {
+    border-radius: 10px;
+}
+.text-Mydark {
+    color: black;
+    font-weight:bold;
+}
