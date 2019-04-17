@@ -8,8 +8,7 @@ if(session_status() == PHP_SESSION_NONE) {
 
 <?php require_once '../../function/db.php'; // Require la connexion a la base de donnée 
 
-$reqArticle = $pdo->query('SELECT titreArticle, contenuArticle,  DATE_FORMAT(dateArticle, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreationFr FROM article ORDER BY dateArticle');
-
+$reqArticle = $pdo->query('SELECT idArticle, statutArticle, auteur, titreArticle, contenuArticle,  DATE_FORMAT(dateArticle, \'%d/%m/%Y à %Hh%imin%ss\') AS dateCreationFr FROM article ORDER BY dateArticle');
 while ($donnees = $reqArticle->fetch())
 {
 ?>
@@ -24,21 +23,9 @@ while ($donnees = $reqArticle->fetch())
     // On affiche le contenu du billet
     echo nl2br(htmlspecialchars($donnees->contenuArticle));
     ?>
-    <br />
-    <em><a href="commentaires.php?article=<?php echo $donnees['idArticle']; ?>">Commentaires</a></em>
-    </p>
+    
 </div>
 <?php
 } // Fin de la boucle des billets
-$req->closeCursor();
-?>
-
-
-
-
-
-
-
-
 
 ?>
