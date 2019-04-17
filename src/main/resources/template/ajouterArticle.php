@@ -49,3 +49,4 @@ $reqCreationArticle-> execute();
 
 <button type="submit">Poster</button>
 </div>
+</form>
